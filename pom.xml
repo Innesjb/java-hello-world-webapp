@@ -31,27 +31,29 @@
 
       <!-- JaCoCo plugin for test coverage -->
       <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.10</version>
-        <executions>
-          <execution>
+    <groupId>org.jacoco</groupId>
+    <artifactId>jacoco-maven-plugin</artifactId>
+    <version>0.8.10</version>
+    <executions>
+        <execution>
             <id>prepare-agent</id>
             <goals>
-              <goal>prepare-agent</goal>
+                <goal>prepare-agent</goal>
             </goals>
-          </execution>
-          <execution>
+        </execution>
+        <execution>
             <id>report</id>
-            <phase>test</phase>
+            <phase>verify</phase> <!-- run after tests -->
             <goals>
-              <goal>report</goal>
+                <goal>report</goal> <!-- keeps HTML report -->
+                <goal>report-xml</goal> <!-- generates XML for Sonar -->
             </goals>
-          </execution>
-        </executions>
-      </plugin>
+        </execution>
+    </executions>
+</plugin>
 
-    </plugins>
+
+    
   </build>
 
 </project>

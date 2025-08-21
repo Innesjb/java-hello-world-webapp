@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  
+
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.cloudifysource.examples</groupId>
   <artifactId>java-hello-world-webapp</artifactId>
@@ -11,7 +11,6 @@
   <url>http://maven.apache.org</url>
 
   <dependencies>
-    <!-- Upgrade JUnit to 4.x for better coverage support -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -23,37 +22,37 @@
   <build>
     <finalName>java-hello-world</finalName>
     <plugins>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
         <version>3.3.2</version>
       </plugin>
 
-      <!-- JaCoCo plugin for test coverage -->
       <plugin>
-    <groupId>org.jacoco</groupId>
-    <artifactId>jacoco-maven-plugin</artifactId>
-    <version>0.8.10</version>
-    <executions>
-        <execution>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.10</version>
+        <executions>
+          <execution>
             <id>prepare-agent</id>
             <goals>
-                <goal>prepare-agent</goal>
+              <goal>prepare-agent</goal>
             </goals>
-        </execution>
-        <execution>
+          </execution>
+          <execution>
             <id>report</id>
-            <phase>verify</phase> <!-- run after tests -->
+            <phase>verify</phase>
             <goals>
-                <goal>report</goal> <!-- keeps HTML report -->
-                <goal>report-xml</goal> <!-- generates XML for Sonar -->
+              <goal>report</goal>
+              <goal>report-xml</goal>
             </goals>
-        </execution>
-    </executions>
-</plugin>
+          </execution>
+        </executions>
+      </plugin>
 
-
-    
+    </plugins>
   </build>
 
 </project>
+

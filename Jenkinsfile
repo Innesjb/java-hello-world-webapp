@@ -23,20 +23,19 @@ pipeline {
             }
         }
 
-        stage('Create CI Artifact in XL Deploy') {
+        stage('Create Package in XL Deploy') {
             steps {
-                xldeployArtifactCreate(
+                xldCreatePackage(
                     serverId: "${XLD_SERVER_ID}",
                     applicationName: "${APP_NAME}",
-                    version: "${APP_VERSION}",
-                    description: "CI artifact created via Jenkins"
+                    version: "${APP_VERSION}"
                 )
             }
         }
 
         stage('Upload WAR to XL Deploy') {
             steps {
-                xldeployArtifactUpload(
+                xldPublishPackage(
                     serverId: "${XLD_SERVER_ID}",
                     applicationName: "${APP_NAME}",
                     version: "${APP_VERSION}",
@@ -48,21 +47,17 @@ pipeline {
         stage('Trigger Deployment in XL Release') {
             steps {
                 echo "Triggering XL Release pipeline for ${APP_NAME} version ${APP_VERSION}"
-                // Optional: API call to XL Release can go here
+                // Optional: API call to XL Release
             }
         }
     }
 
     post {
         success {
-            echo "✅ Build, CI artifact creation, upload, and deployment steps finished successfully."
+            echo "✅ Build, package creation, upload, and deployment steps finished successfully."
         }
         failure {
             echo "❌ Build or deployment failed."
         }
     }
 }
-
-      
-       
-       

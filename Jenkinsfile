@@ -14,8 +14,8 @@ pipeline {
           -F "file=@target/java-hello-world.war" \
           "$XLD_SERVER/deployit/repository/import"
         '''
-    }
-}
+          }
+      }
 
 
         stage('Build WAR with Maven') {

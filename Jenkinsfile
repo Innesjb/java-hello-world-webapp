@@ -25,9 +25,10 @@ pipeline {
         stage('Upload WAR to XL Deploy') {
             steps {
                 sh '''
-                curl -u $XLD_USER:$XLD_PASS -X POST \
-                  -F "file=@target/java-hello-world.war" \
-                  "$XLD_SERVER/deployit/repository/import"
+                    curl -u $XLD_USER:$XLD_PASS \
+                         -X PUT \
+                         -F "file=@target/java-hello-world.war" \
+                         "$XLD_SERVER/deployit/repository/ci/com/example/java-hello-world.war/1.0"
                 '''
             }
         }
@@ -45,6 +46,5 @@ pipeline {
     }
 }
 
-
-
-      
+       
+       

@@ -23,8 +23,7 @@ pipeline {
         stage('Create Package in XL Deploy') {
             steps {
                 xldCreatePackage(
-                    applicationName: 'java-hello-world',
-                    version: '1.0',
+                    packageId: 'java-hello-world:1.0',
                     darPath: 'target/java-hello-world.war'
                 )
             }
@@ -33,8 +32,7 @@ pipeline {
         stage('Publish Package to XL Deploy') {
             steps {
                 xldPublishPackage(
-                    applicationName: 'java-hello-world',
-                    version: '1.0',
+                    packageId: 'java-hello-world:1.0',
                     darPath: 'target/java-hello-world.war',
                     serverCredentials: 'XLDeployServer'
                 )
@@ -44,9 +42,8 @@ pipeline {
         stage('Deploy to Environment') {
             steps {
                 xldDeploy(
-                    applicationName: 'java-hello-world',
-                    version: '1.0',
-                    environment: 'DEV',
+                    packageId: 'java-hello-world:1.0',
+                    environmentId: 'DEV',
                     serverCredentials: 'XLDeployServer'
                 )
             }
@@ -63,4 +60,5 @@ pipeline {
     }
 }
 
-        
+       
+       

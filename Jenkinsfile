@@ -7,16 +7,14 @@ pipeline {
         XLD_PASS   = '1234'
     }
 
-    stage('Upload WAR to XL Deploy') {
-    steps {
-        sh '''
-        curl -u $XLD_USER:$XLD_PASS -X POST \
-          -F "file=@target/java-hello-world.war" \
-          "$XLD_SERVER/deployit/repository/import"
-        '''
-          }
-      }
-
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'master',
+                    url: 'https://github.com/Innesjb/java-hello-world-webapp.git',
+                    credentialsId: 'git-credentials'
+            }
+        }
 
         stage('Build WAR with Maven') {
             steps {
@@ -28,7 +26,7 @@ pipeline {
             steps {
                 sh '''
                 curl -u $XLD_USER:$XLD_PASS -X POST \
-                  -F "file=@target/java-hello-world-webapp.war" \
+                  -F "file=@target/java-hello-world.war" \
                   "$XLD_SERVER/deployit/repository/import"
                 '''
             }
@@ -46,6 +44,7 @@ pipeline {
         failure { echo "❌ Build failed." }
     }
 }
+
 
 
       

@@ -7,14 +7,14 @@ pipeline {
         XLD_PASS   = '1234'
     }
 
-    stage('Checkout') {
-    steps {
-        git branch: 'master',
-            url: 'https://github.com/Innesjb/java-hello-world-webapp.git',
-            credentialsId: 'git-credentials'
-    }
-}
-
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'master',
+                    url: 'https://github.com/Innesjb/java-hello-world-webapp.git',
+                    credentialsId: 'git-credentials'
+            }
+        }
 
         stage('Build WAR with Maven') {
             steps {
@@ -44,3 +44,6 @@ pipeline {
         failure { echo "❌ Build failed." }
     }
 }
+
+
+      

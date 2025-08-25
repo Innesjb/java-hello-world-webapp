@@ -2,18 +2,15 @@ pipeline {
     agent any
 
     environment {
-        XLD_SERVER_ID = 'XLDeployServer' // XL Deploy server configured in Jenkins
-        APP_NAME      = 'java-hello-world'
-        APP_VERSION   = '1.0'
-        WAR_FILE      = 'target/java-hello-world.war'
+        MAVEN_HOME = tool name: 'Maven3', type: 'maven'
+        PATH = "${MAVEN_HOME}/bin:${env.PATH}"
     }
 
     stages {
-        stage('Checkout') {
+
+        stage('Checkout SCM') {
             steps {
-                git branch: 'master',
-                    url: 'https://github.com/Innesjb/java-hello-world-webapp.git',
-                    credentialsId: 'git-credentials'
+                checkout scm
             }
         }
 
@@ -26,9 +23,9 @@ pipeline {
         stage('Create Package in XL Deploy') {
             steps {
                 xldCreatePackage(
-                    serverId: "${XLD_SERVER_ID}",
-                    applicationName: "${APP_NAME}",
-                    version: "${APP_VERSION}"
+                    serverId: 'XLDeployServer', // Jenkins XL Deploy server ID
+                    applicationName: 'java-hello-world',
+                    version: '1.0'
                 )
             }
         }
@@ -36,28 +33,34 @@ pipeline {
         stage('Upload WAR to XL Deploy') {
             steps {
                 xldPublishPackage(
-                    serverId: "${XLD_SERVER_ID}",
-                    applicationName: "${APP_NAME}",
-                    version: "${APP_VERSION}",
-                    artifactPath: "${WAR_FILE}"
+                    serverId: 'XLDeployServer', // Jenkins XL Deploy server ID
+                    applicationName: 'java-hello-world',
+                    version: '1.0',
+                    artifactPath: 'target/java-hello-world.war'
                 )
             }
         }
 
         stage('Trigger Deployment in XL Release') {
             steps {
-                echo "Triggering XL Release pipeline for ${APP_NAME} version ${APP_VERSION}"
-                // Optional: API call to XL Release
+                xldDeploy(
+                    serverId: 'XLDeployServer',
+                    environment: 'DEV',
+                    applicationName: 'java-hello-world',
+                    version: '1.0'
+                )
             }
         }
     }
 
     post {
         success {
-            echo "✅ Build, package creation, upload, and deployment steps finished successfully."
+            echo '✅ Build and deployment succeeded!'
         }
         failure {
-            echo "❌ Build or deployment failed."
+            echo '❌ Build or deployment failed.'
         }
     }
 }
+
+                   

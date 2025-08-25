@@ -22,32 +22,30 @@ pipeline {
 
         stage('Create Package in XL Deploy') {
             steps {
+                // Create a package from WAR (DAR not needed for this example)
                 xldCreatePackage(
-                    serverId: 'XLDeployServer', // Jenkins XL Deploy server ID
-                    applicationName: 'java-hello-world',
-                    version: '1.0'
+                    packageId: 'java-hello-world:1.0',
+                    darPath: 'target/java-hello-world.war'
                 )
             }
         }
 
         stage('Upload WAR to XL Deploy') {
             steps {
+                // Publish the package to XL Deploy server
                 xldPublishPackage(
-                    serverId: 'XLDeployServer', // Jenkins XL Deploy server ID
-                    applicationName: 'java-hello-world',
-                    version: '1.0',
-                    artifactPath: 'target/java-hello-world.war'
+                    packageId: 'java-hello-world:1.0',
+                    darPath: 'target/java-hello-world.war'
                 )
             }
         }
 
         stage('Trigger Deployment in XL Release') {
             steps {
+                // Deploy the package to DEV environment
                 xldDeploy(
-                    serverId: 'XLDeployServer',
-                    environment: 'DEV',
-                    applicationName: 'java-hello-world',
-                    version: '1.0'
+                    packageId: 'java-hello-world:1.0',
+                    environmentId: 'DEV'
                 )
             }
         }
@@ -62,5 +60,3 @@ pipeline {
         }
     }
 }
-
-                   

@@ -24,8 +24,8 @@ pipeline {
             steps {
                 // Create a package from WAR (DAR not needed for this example)
                 xldCreatePackage(
-                    packageId: 'java-hello-world:1.0',
-                    darPath: 'target/java-hello-world.war'
+                     packageId: 'java-hello-world:1.0',
+                     darPath: 'target/java-hello-world.war'
                 )
             }
         }
@@ -46,6 +46,7 @@ pipeline {
                 xldDeploy(
                     packageId: 'java-hello-world:1.0',
                     environmentId: 'DEV'
+
                 )
             }
         }

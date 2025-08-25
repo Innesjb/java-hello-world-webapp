@@ -7,12 +7,14 @@ pipeline {
         XLD_PASS   = '1234'
     }
 
-    stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'main', url: 'https://github.com/your-org/java-hello-world-webapp.git'
-            }
-        }
+    stage('Checkout') {
+    steps {
+        git branch: 'master',
+            url: 'https://github.com/Innesjb/java-hello-world-webapp.git',
+            credentialsId: 'git-credentials'
+    }
+}
+
 
         stage('Build WAR with Maven') {
             steps {
